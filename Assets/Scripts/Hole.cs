@@ -4,9 +4,32 @@ using UnityEngine;
 
 public class Hole : MonoBehaviour {
 
+    bool fallIn;
+
     //どのボールをすいよせるかをタグで指定
     public string activeTag;
 
+    //ボールが入っているかを返す
+    public bool isFallIn()
+    {
+        return fallIn;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == activeTag)
+        {
+            fallIn = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == activeTag)
+        {
+            fallIn = false;
+        }
+
+    }
     private void OnTriggerStay(Collider other)
     {
         //古来だに触れているオブジェクトのリジットボディコンポーネントを取得
