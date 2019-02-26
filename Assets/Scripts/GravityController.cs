@@ -21,18 +21,29 @@ public class GravityController : MonoBehaviour {
         //重力ベクトルの初期化
         Vector3 vector = new Vector3();
 
-        //キーの入力を検知しベクトルを設定
-        vector.x = Input.GetAxis("Horizontal");
-        vector.z = Input.GetAxis("Vertical");
-
-        //高さ方向の判定のキーはZとする
-        if (Input.GetKey("z"))
+        if (Application.isEditor)
         {
-            vector.y = 1.0f;
+
+            //キーの入力を検知しベクトルを設定
+            vector.x = Input.GetAxis("Horizontal");
+            vector.z = Input.GetAxis("Vertical");
+
+            //高さ方向の判定のキーはZとする
+            if (Input.GetKey("z"))
+            {
+                vector.y = 1.0f;
+            }
+            else
+            {
+                vector.y = -1.0f;
+            }
         }
         else
         {
-            vector.y = -1.0f;
+            //加速度センサーの入力をUnity空間の軸にマッピングする
+            vector.x = Input.acceleration.x;
+            vector.z = Input.acceleration.y;
+            vector.z = Input.acceleration.z;
         }
 
         //シーンの重力を入力ベクトルの方向に合わせて変化させる
